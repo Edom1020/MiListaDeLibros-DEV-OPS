@@ -1,0 +1,36 @@
+:root {
+  /* Colores principales */
+  --azul-profundo: #1a56a0;
+  --azul-medio: #378add;
+  --azul-claro: #e6f1fb;
+  --azul-borde: #b5d4f4;
+  --azul-fondo: #f4f8fe;
+  --azul-oscuro: #0c3566;
+  --azul-texto: #5a8abf;
+  --azul-nav-texto: #c8dff5;
+
+  /* Blancos */
+  --blanco: #ffffff;
+  --blanco-suave: #f4f8fe;
+
+  /* Estados */
+  --rojo-suave: #fff0f0;
+  --rojo-texto: #a32d2d;
+  --amarillo-suave: #fff8e1;
+  --amarillo-texto: #b07a00;
+
+  /* Tipografía */
+  --fuente-principal: 'Segoe UI', sans-serif;
+  --texto-titulo: #0c3566;
+  --texto-secundario: #5a8abf;
+  --texto-suave: #7a9bbf;
+
+  /* Bordes y radios */
+  --borde: 0.5px solid #b5d4f4;
+  --radio-sm: 6px;
+  --radio-md: 8px;
+  --radio-lg: 12px;
+
+  /* Sombra suave */
+  --sombra: 0 2px 12px rgba(26, 86, 160, 0.08);
+}
