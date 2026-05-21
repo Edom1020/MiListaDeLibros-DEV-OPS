@@ -1,6 +1,8 @@
 import { createContext, useContext, useState } from 'react'
 
-const AuthContext = createContext()
+export const AuthCtx = createContext()
+
+export const useAuth = () => useContext(AuthCtx)
 
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(
@@ -18,10 +20,8 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ usuario, iniciarSesion, cerrarSesion }}>
+    <AuthCtx.Provider value={{ usuario, iniciarSesion, cerrarSesion }}>
       {children}
-    </AuthContext.Provider>
+    </AuthCtx.Provider>
   )
 }
-
-export const useAuth = () => useContext(AuthContext)

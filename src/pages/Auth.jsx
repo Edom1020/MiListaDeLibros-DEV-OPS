@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { AuthProvider } from '../context/AuthContext'
 import { login, registrar } from '../services/api'
 
 export default function Auth() {

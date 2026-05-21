@@ -1,6 +1,6 @@
 let librosSimulados = [
-  { _id: '1', titulo: 'Cien años de soledad', autor: 'García Márquez', año: 1967, reseña: 'Obra maestra del realismo mágico', estado: 'leido' },
-  { _id: '2', titulo: 'El principito', autor: 'Saint-Exupéry', año: 1943, reseña: 'Clásico imprescindible', estado: 'pendiente' }
+  { _id: '1', titulo: 'Cien años de soledad', autor: 'García Márquez', year: 1967, review: 'Obra maestra del realismo mágico', estado: 'leido' },
+  { _id: '2', titulo: 'El principito', autor: 'Saint-Exupéry', year: 1943, review: 'Clásico imprescindible', estado: 'pendiente' }
 ]
 
 export const login = async ({ email, password }) => ({

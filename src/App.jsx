@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider, useAuth } from './context/AuthContext'
+import { AuthProvider } from './context/AuthContext'
+import { useAuth } from './context/AuthContext'
 import Auth from './pages/Auth'
+import Libros from './pages/Libros'
 
 function RutaProtegida({ children }) {
   const { usuario } = useAuth()
@@ -13,6 +15,11 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
+          <Route path="/libros" element={
+            <RutaProtegida>
+              <Libros />
+            </RutaProtegida>
+          } />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
