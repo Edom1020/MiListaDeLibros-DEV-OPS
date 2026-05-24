@@ -82,8 +82,20 @@ export default function ModalLibro({ libro, usuarioId, onGuardado, onCerrar }) {
           alignItems: 'center',
           marginBottom: '20px'
         }}>
-          <div style={{ fontSize: '16px', fontWeight: '500', color: 'var(--azul-oscuro)' }}>
-            {libro ? '✏️ Editar libro' : '📖 Agregar nuevo libro'}
+            <div style={{
+            fontSize: '16px',
+            fontWeight: '500',
+            color: 'var(--azul-oscuro)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <img
+              src={libro ? "/public/images/edit.png" : "/public/images/openbook.png"}
+              alt=""
+              style={{ width: '20px', height: '20px' }}
+            />
+            {libro ? 'Editar libro' : 'Agregar nuevo libro'}
           </div>
           <button
             onClick={onCerrar}
