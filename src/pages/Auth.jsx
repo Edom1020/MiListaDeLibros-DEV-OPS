@@ -32,6 +32,7 @@ export default function Auth() {
     }
   }
 
+  
   return (
     <div style={{
       minHeight: '100vh',
