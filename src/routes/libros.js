@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { body, validationResult } = require('express-validator');
 const Libro = require('../models/Libro');
 const auth = require('../middleware/auth');
 
@@ -14,8 +15,32 @@ router.get('/', auth, async (req, res) => {
 });
 
 // POST - Agregar un libro
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, [
+  body('titulo')
+    .trim()
+    .notEmpty().withMessage('El título es obligatorio')
+    .escape(),
+  body('autor')
+    .trim()
+    .notEmpty().withMessage('El autor es obligatorio')
+    .escape(),
+  body('anio')
+    .notEmpty().withMessage('El año es obligatorio')
+    .isInt({ min: 1000, max: 2100 }).withMessage('El año no es válido'),
+  body('resena')
+    .optional()
+    .trim()
+    .escape(),
+  body('estado')
+    .optional()
+    .isIn(['leido', 'pendiente']).withMessage('El estado debe ser leido o pendiente')
+], async (req, res) => {
   try {
+    const errores = validationResult(req);
+    if (!errores.isEmpty()) {
+      return res.status(400).json({ errores: errores.array() });
+    }
+
     const { titulo, autor, anio, resena, estado } = req.body;
     const libro = new Libro({
       titulo, autor, anio, resena, estado,
@@ -29,8 +54,34 @@ router.post('/', auth, async (req, res) => {
 });
 
 // PUT - Editar un libro
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', auth, [
+  body('titulo')
+    .optional()
+    .trim()
+    .notEmpty().withMessage('El título no puede estar vacío')
+    .escape(),
+  body('autor')
+    .optional()
+    .trim()
+    .notEmpty().withMessage('El autor no puede estar vacío')
+    .escape(),
+  body('anio')
+    .optional()
+    .isInt({ min: 1000, max: 2100 }).withMessage('El año no es válido'),
+  body('resena')
+    .optional()
+    .trim()
+    .escape(),
+  body('estado')
+    .optional()
+    .isIn(['leido', 'pendiente']).withMessage('El estado debe ser leido o pendiente')
+], async (req, res) => {
   try {
+    const errores = validationResult(req);
+    if (!errores.isEmpty()) {
+      return res.status(400).json({ errores: errores.array() });
+    }
+
     const libro = await Libro.findOneAndUpdate(
       { _id: req.params.id, usuario: req.usuario.id },
       req.body,
