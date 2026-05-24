@@ -14,10 +14,11 @@ export function AuthProvider({ children }) {
     localStorage.setItem('usuario', JSON.stringify(datos))
   }
 
-  const cerrarSesion = () => {
-    setUsuario(null)
-    localStorage.removeItem('usuario')
-  }
+const cerrarSesion = () => {
+  setUsuario(null)
+  localStorage.removeItem('usuario')
+  localStorage.removeItem('token') 
+}
 
   return (
     <AuthCtx.Provider value={{ usuario, iniciarSesion, cerrarSesion }}>

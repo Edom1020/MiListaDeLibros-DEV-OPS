@@ -1,28 +1,72 @@
-let librosSimulados = [
-  { _id: '1', titulo: 'Cien años de soledad', autor: 'García Márquez', year: 1967, review: 'Obra maestra del realismo mágico', estado: 'leido' },
-  { _id: '2', titulo: 'El principito', autor: 'Saint-Exupéry', year: 1943, review: 'Clásico imprescindible', estado: 'pendiente' }
-]
+import axios from 'axios'
 
-export const login = async ({ email, password }) => ({
-  data: { usuario: { id: '1', nombre: 'Esteban', email } }
+const API = axios.create({
+  baseURL: 'http://localhost:5000/api'
 })
 
-export const registrar = async (datos) => ({ data: { success: true } })
+// Agrega el token automáticamente a cada petición
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
+})
 
-export const obtenerLibros = async () => ({ data: { data: librosSimulados } })
+// AUTH
+export const registrar = (datos) => API.post('/usuarios/registro', datos)
+
+export const login = async (datos) => {
+  const respuesta = await API.post('/usuarios/login', datos)
+  // Guardamos el token y adaptamos la respuesta al formato del frontend
+  localStorage.setItem('token', respuesta.data.token)
+  return {
+    data: {
+      usuario: {
+        id: respuesta.data.id || respuesta.data._id,
+        nombre: respuesta.data.nombre,
+        email: datos.email
+      }
+    }
+  }
+}
+
+// LIBROS — adaptamos year→anio y review→resena
+export const obtenerLibros = async () => {
+  const respuesta = await API.get('/libros')
+  // Convertimos la respuesta del backend al formato del frontend
+  const libros = respuesta.data.map(l => ({
+    ...l,
+    year: l.anio,
+    review: l.resena
+  }))
+  return { data: { data: libros } }
+}
 
 export const crearLibro = async (datos) => {
-  const nuevo = { ...datos, _id: Date.now().toString() }
-  librosSimulados.push(nuevo)
-  return { data: { data: nuevo } }
+  // Convertimos year→anio y review→resena antes de enviar
+  const payload = {
+    titulo: datos.titulo,
+    autor: datos.autor,
+    anio: datos.year,
+    resena: datos.review,
+    estado: datos.estado
+  }
+  const respuesta = await API.post('/libros', payload)
+  return { data: { data: respuesta.data } }
 }
 
 export const actualizarLibro = async (id, datos) => {
-  librosSimulados = librosSimulados.map(l => l._id === id ? { ...l, ...datos } : l)
-  return { data: { data: datos } }
+  const payload = {
+    titulo: datos.titulo,
+    autor: datos.autor,
+    anio: datos.year,
+    resena: datos.review,
+    estado: datos.estado
+  }
+  const respuesta = await API.put(`/libros/${id}`, payload)
+  return { data: { data: respuesta.data } }
 }
 
 export const eliminarLibro = async (id) => {
-  librosSimulados = librosSimulados.filter(l => l._id !== id)
-  return { data: { success: true } }
+  const respuesta = await API.delete(`/libros/${id}`)
+  return { data: respuesta.data }
 }
