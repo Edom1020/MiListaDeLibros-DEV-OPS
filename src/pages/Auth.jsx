@@ -57,7 +57,9 @@ export default function Auth() {
           padding: '28px',
           textAlign: 'center'
         }}>
-          <div style={{ fontSize: '40px' }}>📚</div>
+          <div style={{ fontSize: '40px' }}>
+            <img src="/public/images/books2.png" alt="Libros" style={{ width: '32px', height: '32px' }} />
+          </div>
           <div style={{
             color: 'var(--blanco)',
             fontSize: '20px',
