@@ -3,11 +3,18 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
+const usuariosRoutes = require('./routes/usuarios');
+const librosRoutes = require('./routes/libros');
+
 const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
+// Rutas
+app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/libros', librosRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
