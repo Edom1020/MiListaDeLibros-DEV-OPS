@@ -10,6 +10,14 @@ const librosRoutes = require('./routes/libros');
 
 const app = express();
 
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://mi-lista-de-libros-dev-ops.vercel.app'
+  ],
+  credentials: true
+}));
+
 app.use(helmet());
 
 const limitadorGeneral = rateLimit({
@@ -26,12 +34,6 @@ const limitadorLogin = rateLimit({
 });
 app.use('/api/usuarios/login', limitadorLogin);
 
-app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://tu-app.vercel.app'  // ← agregar cuando tengas la URL de Vercel
-  ]
-}));
 app.use(express.json());
 
 app.use('/api/usuarios', usuariosRoutes);
@@ -41,22 +43,22 @@ app.get('/', (req, res) => {
   res.json({ mensaje: '¡Servidor de libros funcionando y seguro!' });
 });
 
-const PORT = process.env.PORT || 5000
-const MONGODB_URI = process.env.MONGODB_URI
+const PORT = process.env.PORT || 5000;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  console.error('❌ MONGODB_URI no está definida')
-  process.exit(1)
+  console.error('MONGODB_URI no está definida');
+  process.exit(1);
 }
 
 mongoose.connect(MONGODB_URI)
   .then(() => {
-    console.log('✅ Conectado a MongoDB')
+    console.log('Conectado a MongoDB');
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en puerto ${PORT}`)
-    })
+      console.log(`Servidor corriendo en puerto ${PORT}`);
+    });
   })
   .catch((error) => {
-    console.error('❌ Error conectando a MongoDB:', error.message)
-    process.exit(1)
-  })
+    console.error('Error conectando a MongoDB:', error.message);
+    process.exit(1);
+  });
