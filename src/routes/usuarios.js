@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const Usuario = require('../models/Usuario');
+const auth = require('../middleware/auth');
 
 // REGISTRO
 router.post('/registro', [
@@ -84,6 +85,17 @@ router.post('/login', [
 
     res.json({ token, nombre: usuario.nombre });
 
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error en el servidor' });
+  }
+});
+
+// GET perfil del usuario autenticado
+router.get('/perfil', auth, async (req, res) => {
+  try {
+    const usuario = await Usuario.findById(req.usuario.id).select('-password');
+    if (!usuario) return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    res.json({ id: usuario._id, nombre: usuario.nombre, email: usuario.email });
   } catch (error) {
     res.status(500).json({ mensaje: 'Error en el servidor' });
   }
