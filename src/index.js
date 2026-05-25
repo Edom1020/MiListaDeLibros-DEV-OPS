@@ -27,7 +27,10 @@ const limitadorLogin = rateLimit({
 app.use('/api/usuarios/login', limitadorLogin);
 
 app.use(cors({
-  origin: '*'
+  origin: [
+    'http://localhost:5173',
+    'https://tu-app.vercel.app'  // ← agregar cuando tengas la URL de Vercel
+  ]
 }));
 app.use(express.json());
 
