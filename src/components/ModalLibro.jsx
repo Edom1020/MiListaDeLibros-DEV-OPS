@@ -91,7 +91,7 @@ export default function ModalLibro({ libro, usuarioId, onGuardado, onCerrar }) {
             gap: '8px'
           }}>
             <img
-              src={libro ? "/public/images/edit.png" : "/public/images/openbook.png"}
+              src={libro ? "/images/edit.png" : "/images/openbook.png"}
               alt=""
               style={{ width: '20px', height: '20px' }}
             />

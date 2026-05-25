@@ -71,7 +71,7 @@ export default function Libros() {
         boxShadow: 'var(--sombra)'
       }}>
         <div style={{ color: 'var(--blanco)', fontSize: '16px', fontWeight: '500' }}>
-          <img src="/public/images/books.png" alt="Logo" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
+          <img src="/images/books.png" alt="Logo" style={{ width: '20px', height: '20px', marginRight: '10px' }} />
           Mi Lista de Libros
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -210,8 +210,8 @@ export default function Libros() {
                     {libro.titulo}
                   </div>
                   <div style={{ fontSize: '13px', color: 'var(--azul-texto)', marginBottom: '6px', display: 'flex', gap: '10px' }}>
-                    <span> <img src="/public/images/writing.png" alt="Autor" style={{ width: '15px', height: '15px', marginRight: '4px' }} /> {libro.autor}</span>
-                    {libro.year && <span><img src="/public/images/calendar.png" alt="Año" style={{ width: '15px', height: '15px', marginRight: '4px' }} /> {libro.year}</span>}
+                    <span> <img src="/images/writing.png" alt="Autor" style={{ width: '15px', height: '15px', marginRight: '4px' }} /> {libro.autor}</span>
+                    {libro.year && <span><img src="/images/calendar.png" alt="Año" style={{ width: '15px', height: '15px', marginRight: '4px' }} /> {libro.year}</span>}
                   </div>
                   {libro.review && (
                     <div style={{ fontSize: '13px', color: 'var(--texto-suave)', fontStyle: 'italic' }}>
@@ -253,7 +253,7 @@ export default function Libros() {
                     cursor: 'pointer'
                   }}
                 >
-                  <img src="/public/images/edit.png" alt="Editar" style={{ width: '15px', height: '15px', marginRight: '4px' }} />
+                  <img src="/images/edit.png" alt="Editar" style={{ width: '15px', height: '15px', marginRight: '4px' }} />
                    Editar
                 </button>
                 <button
@@ -269,7 +269,7 @@ export default function Libros() {
                     cursor: 'pointer'
                   }}
                 >
-                  <img src="/public/images/delete.png" alt="Eliminar" style={{ width: '15px', height: '15px', marginRight: '4px' }} />
+                  <img src="/images/delete.png" alt="Eliminar" style={{ width: '15px', height: '15px', marginRight: '4px' }} />
                    Eliminar
                 </button>
               </div>
