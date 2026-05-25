@@ -22,13 +22,19 @@ export default function Auth() {
 
  // Validación frontend
   if (!esLogin && form.nombre.trim().length < 2) {
-    return setError('El nombre debe tener mínimo 2 caracteres')
+    setError('El nombre debe tener mínimo 2 caracteres')
+    setCargando(false)
+    return
   }
   if (!form.email.includes('@')) {
-    return setError('El email no es válido')
+    setError('El email no es válido')
+    setCargando(false)
+    return
   }
   if (form.password.length < 6) {
-    return setError('La contraseña debe tener mínimo 6 caracteres')
+    setError('La contraseña debe tener mínimo 6 caracteres')
+    setCargando(false)
+    return
   }
   
     try {
