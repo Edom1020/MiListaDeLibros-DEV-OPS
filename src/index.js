@@ -27,7 +27,7 @@ const limitadorLogin = rateLimit({
 app.use('/api/usuarios/login', limitadorLogin);
 
 app.use(cors({
-  origin: 'https://tu-app.vercel.app'
+  origin: '*'
 }));
 app.use(express.json());
 
@@ -38,13 +38,22 @@ app.get('/', (req, res) => {
   res.json({ mensaje: '¡Servidor de libros funcionando y seguro!' });
 });
 
-mongoose.connect(process.env.MONGODB_URI)
+const PORT = process.env.PORT || 5000
+const MONGODB_URI = process.env.MONGODB_URI
+
+if (!MONGODB_URI) {
+  console.error('❌ MONGODB_URI no está definida')
+  process.exit(1)
+}
+
+mongoose.connect(MONGODB_URI)
   .then(() => {
-    console.log('✅ Conectado a MongoDB');
-    app.listen(process.env.PORT, () => {
-      console.log(`🚀 Servidor corriendo en puerto ${process.env.PORT}`);
-    });
+    console.log('✅ Conectado a MongoDB')
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor corriendo en puerto ${PORT}`)
+    })
   })
   .catch((error) => {
-    console.error('❌ Error conectando a MongoDB:', error.message);
-  });
+    console.error('❌ Error conectando a MongoDB:', error.message)
+    process.exit(1)
+  })
