@@ -10,12 +10,14 @@ router.post('/registro', [
   body('nombre')
     .trim()
     .notEmpty().withMessage('El nombre es obligatorio')
-    .isLength({ min: 2 }).withMessage('El nombre debe tener mínimo 2 caracteres'),
+    .isLength({ min: 2 }).withMessage('El nombre debe tener mínimo 2 caracteres')
+    .escape(),
   body('email')
     .trim()
     .notEmpty().withMessage('El email es obligatorio')
     .isEmail().withMessage('El email no es válido')
-    .normalizeEmail(),
+    .normalizeEmail()
+    .escape(),
   body('password')
     .notEmpty().withMessage('La contraseña es obligatoria')
     .isLength({ min: 6 }).withMessage('La contraseña debe tener mínimo 6 caracteres')
