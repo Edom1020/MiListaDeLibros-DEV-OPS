@@ -12,14 +12,14 @@ export default function Libros() {
   const [libroEditando, setLibroEditando] = useState(null)
   const [filtroYear, setFiltroYear] = useState('todos')
 
-  useEffect(() => {
-    cargarLibros()
-  }, [])
-
-  const cargarLibros = async () => {
+    const cargarLibros = async () => {
     const respuesta = await obtenerLibros(usuario.id)
     setLibros(respuesta.data.data)
   }
+
+  useEffect(() => {
+    cargarLibros()
+  }, [])
 
   const handleCerrarSesion = () => {
     cerrarSesion()
