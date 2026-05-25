@@ -6,7 +6,7 @@ const API = axios.create({
 
 // Agrega el token automáticamente a cada petición
 API.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
@@ -16,8 +16,8 @@ export const registrar = (datos) => API.post('/usuarios/registro', datos)
 
 export const login = async (datos) => {
   const respuesta = await API.post('/usuarios/login', datos)
-  // Guardamos el token y adaptamos la respuesta al formato del frontend
-  localStorage.setItem('token', respuesta.data.token)
+  // Guardamos el token en sessionStorage para mayor seguridad
+  sessionStorage.setItem('token', respuesta.data.token)
   return {
     data: {
       usuario: {
@@ -28,6 +28,9 @@ export const login = async (datos) => {
     }
   }
 }
+
+// Nueva función para validar el token y obtener datos frescos del usuario
+export const obtenerPerfil = () => API.get('/usuarios/perfil')
 
 // LIBROS — adaptamos year→anio y review→resena
 export const obtenerLibros = async () => {

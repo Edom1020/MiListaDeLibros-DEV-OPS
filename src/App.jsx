@@ -5,7 +5,13 @@ import Auth from './pages/Auth'
 import Libros from './pages/Libros'
 
 function RutaProtegida({ children }) {
-  const { usuario } = useAuth()
+  const { usuario, autenticando } = useAuth()
+
+  // Mientras se valida el token con el backend, mostramos una pantalla de carga
+  if (autenticando) {
+    return <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>Cargando sesión...</div>
+  }
+
   return usuario ? children : <Navigate to="/" />
 }
 

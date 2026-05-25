@@ -19,6 +19,18 @@ export default function Auth() {
     e.preventDefault()
     setError('')
     setCargando(true)
+
+ // Validación frontend
+  if (!esLogin && form.nombre.trim().length < 2) {
+    return setError('El nombre debe tener mínimo 2 caracteres')
+  }
+  if (!form.email.includes('@')) {
+    return setError('El email no es válido')
+  }
+  if (form.password.length < 6) {
+    return setError('La contraseña debe tener mínimo 6 caracteres')
+  }
+  
     try {
       if (!esLogin) await registrar(form)
       const respuesta = await login({ email: form.email, password: form.password })

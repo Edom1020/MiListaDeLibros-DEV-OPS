@@ -19,11 +19,14 @@ export default function ModalLibro({ libro, usuarioId, onGuardado, onCerrar }) {
     e.preventDefault()
     setCargando(true)
     try {
-      const datos = {
-        ...form,
-        year: form.year ? Number(form.year) : undefined,
-        usuarioId
-      }
+        const datos = {
+      titulo: form.titulo.trim(),
+      autor: form.autor.trim(),
+      year: form.year ? Number(form.year) : undefined,
+      review: form.review.trim(),
+      estado: form.estado,
+      usuarioId
+    }
       if (libro) {
         await actualizarLibro(libro._id, datos)
       } else {
@@ -119,6 +122,7 @@ export default function ModalLibro({ libro, usuarioId, onGuardado, onCerrar }) {
               <label style={labelStyle}>Título *</label>
               <input
                 name="titulo"
+                maxLength={200}  
                 value={form.titulo}
                 onChange={handleChange}
                 required
@@ -130,6 +134,7 @@ export default function ModalLibro({ libro, usuarioId, onGuardado, onCerrar }) {
               <label style={labelStyle}>Autor *</label>
               <input
                 name="autor"
+                maxLength={100}  
                 value={form.autor}
                 onChange={handleChange}
                 required
@@ -146,6 +151,8 @@ export default function ModalLibro({ libro, usuarioId, onGuardado, onCerrar }) {
               <input
                 name="year"
                 type="number"
+                  min={1000}            
+                  max={2026} 
                 value={form.year}
                 onChange={handleChange}
                 placeholder="2024"
@@ -171,6 +178,7 @@ export default function ModalLibro({ libro, usuarioId, onGuardado, onCerrar }) {
             <label style={labelStyle}>Reseña</label>
             <textarea
               name="review"
+              maxLength={1000}
               value={form.review}
               onChange={handleChange}
               placeholder="Escribe tu reseña aquí..."
