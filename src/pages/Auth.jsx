@@ -43,7 +43,7 @@ export default function Auth() {
       iniciarSesion(respuesta.data.usuario)
       navigate('/libros')
     } catch (err) {
-      setError(err.response?.data?.error || 'Ocurrió un error, intenta de nuevo')
+      setError(err.response?.data?.mensaje || err.response?.data?.error || 'Ocurrió un error, intenta de nuevo')
     } finally {
       setCargando(false)
     }
