@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { AuthProvider } from '../context/AuthContext'
 import { login, registrar } from '../services/api'
 
 export default function Auth() {
@@ -32,7 +31,7 @@ export default function Auth() {
     }
   }
 
-  
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -58,9 +57,7 @@ export default function Auth() {
           padding: '28px',
           textAlign: 'center'
         }}>
-          <div style={{ fontSize: '40px' }}>
-            <img src="/public/images/books2.png" alt="Libros" style={{ width: '32px', height: '32px' }} />
-          </div>
+          <div style={{ fontSize: '40px' }}><img src="/images/books2.png" alt="Logo" style={{ width: '32px', height: '32px' }} /></div>
           <div style={{
             color: 'var(--blanco)',
             fontSize: '20px',
