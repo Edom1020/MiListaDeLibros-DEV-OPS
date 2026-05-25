@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator');
+const { body, validationResult, matchedData } = require('express-validator');
 const Usuario = require('../models/Usuario');
 const auth = require('../middleware/auth');
 
@@ -12,6 +12,7 @@ router.post('/registro', [
     .trim()
     .notEmpty().withMessage('El nombre es obligatorio')
     .isLength({ min: 2 }).withMessage('El nombre debe tener mínimo 2 caracteres')
+    .isLength({ max: 80 }).withMessage('El nombre no puede superar 80 caracteres')
     .escape(),
   body('email')
     .trim()
@@ -21,7 +22,8 @@ router.post('/registro', [
     .escape(),
   body('password')
     .notEmpty().withMessage('La contraseña es obligatoria')
-    .isLength({ min: 6 }).withMessage('La contraseña debe tener mínimo 6 caracteres')
+    .isLength({ min: 10 }).withMessage('La contraseña debe tener mínimo 10 caracteres')
+    .isLength({ max: 72 }).withMessage('La contraseña no puede superar 72 caracteres')
 ], async (req, res) => {
   try {
     const errores = validationResult(req);
@@ -29,7 +31,7 @@ router.post('/registro', [
       return res.status(400).json({ errores: errores.array() });
     }
 
-    const { nombre, email, password } = req.body;
+    const { nombre, email, password } = matchedData(req, { locations: ['body'] });
 
     const usuarioExiste = await Usuario.findOne({ email });
     if (usuarioExiste) {
@@ -58,6 +60,7 @@ router.post('/login', [
     .normalizeEmail(),
   body('password')
     .notEmpty().withMessage('La contraseña es obligatoria')
+    .isLength({ max: 72 }).withMessage('La contraseña no puede superar 72 caracteres')
 ], async (req, res) => {
   try {
     const errores = validationResult(req);
@@ -65,9 +68,9 @@ router.post('/login', [
       return res.status(400).json({ errores: errores.array() });
     }
 
-    const { email, password } = req.body;
+    const { email, password } = matchedData(req, { locations: ['body'] });
 
-    const usuario = await Usuario.findOne({ email });
+    const usuario = await Usuario.findOne({ email }).select('+password');
     if (!usuario) {
       return res.status(400).json({ mensaje: 'Email o contraseña incorrectos' });
     }
@@ -80,7 +83,7 @@ router.post('/login', [
     const token = jwt.sign(
       { id: usuario._id, nombre: usuario.nombre },
       process.env.JWT_SECRET,
-      { expiresIn: '24h' }
+      { expiresIn: '24h', algorithm: 'HS256' }
     );
 
     res.json({ token, nombre: usuario.nombre });

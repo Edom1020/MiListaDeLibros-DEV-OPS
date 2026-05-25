@@ -3,19 +3,27 @@ const mongoose = require('mongoose');
 const libroSchema = new mongoose.Schema({
   titulo: {
     type: String,
-    required: true
+    required: true,
+    trim: true,
+    maxlength: 120
   },
   autor: {
     type: String,
-    required: true
+    required: true,
+    trim: true,
+    maxlength: 120
   },
   anio: {
     type: Number,
-    required: true
+    required: true,
+    min: 1000,
+    max: 2100
   },
   resena: {
     type: String,
-    default: ''
+    default: '',
+    trim: true,
+    maxlength: 2000
   },
   estado: {
     type: String,
@@ -25,7 +33,8 @@ const libroSchema = new mongoose.Schema({
   usuario: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Usuario',
-    required: true
+    required: true,
+    immutable: true
   }
 }, { timestamps: true });
 

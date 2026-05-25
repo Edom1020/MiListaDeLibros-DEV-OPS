@@ -2,13 +2,20 @@ const jwt = require('jsonwebtoken');
 
 const auth = (req, res, next) => {
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const authorization = req.header('Authorization');
     
+    if (!authorization || !authorization.startsWith('Bearer ')) {
+      return res.status(401).json({ mensaje: 'Acceso denegado' });
+    }
+
+    const token = authorization.slice(7).trim();
     if (!token) {
       return res.status(401).json({ mensaje: 'Acceso denegado' });
     }
 
-    const verificado = jwt.verify(token, process.env.JWT_SECRET);
+    const verificado = jwt.verify(token, process.env.JWT_SECRET, {
+      algorithms: ['HS256']
+    });
     req.usuario = verificado;
     next();
 
