@@ -43,7 +43,8 @@ export default function Auth() {
       iniciarSesion(respuesta.data.usuario)
       navigate('/libros')
     } catch (err) {
-      setError(err.response?.data?.mensaje || err.response?.data?.error || 'Ocurrió un error, intenta de nuevo')
+      const msg = err.response?.data?.mensaje || err.response?.data?.error || 'Ocurrió un error, intenta de nuevo'
+      setError(typeof msg === 'string' ? msg : JSON.stringify(msg))
     } finally {
       setCargando(false)
     }

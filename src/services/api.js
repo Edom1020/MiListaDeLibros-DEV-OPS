@@ -33,8 +33,8 @@ export const login = async (datos) => {
 export const obtenerPerfil = () => API.get('/usuarios/perfil')
 
 // LIBROS — adaptamos year→anio y review→resena
-export const obtenerLibros = async () => {
-  const respuesta = await API.get('/libros')
+export const obtenerLibros = async (usuarioId) => {
+    const respuesta = await API.get('/libros')
   // Convertimos la respuesta del backend al formato del frontend
   const libros = respuesta.data.map(l => ({
     ...l,
