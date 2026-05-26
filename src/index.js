@@ -13,6 +13,7 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:5173',
+    'https://mi-lista-de-libros-dev-ds9p31hex-esteban-dominguez-s-projects.vercel.app',
     'https://mi-lista-de-libros-dev-ops.vercel.app'
   ],
   credentials: true
