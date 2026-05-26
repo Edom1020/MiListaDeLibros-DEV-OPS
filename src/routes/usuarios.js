@@ -23,8 +23,10 @@ router.post('/registro', [
     .escape(),
   body('password')
     .notEmpty().withMessage('La contraseña es obligatoria')
-    .isLength({ min: 10 }).withMessage('La contraseña debe tener mínimo 10 caracteres')
+    .isLength({ min: 12 }).withMessage('La contraseña debe tener mínimo 12 caracteres')
     .isLength({ max: 72 }).withMessage('La contraseña no puede superar 72 caracteres')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/)
+    .withMessage('La contraseña debe incluir mayúsculas, minúsculas, números y caracteres especiales (@$!%*?&)')
 ], async (req, res) => {
   try {
     const errores = validationResult(req);
@@ -84,7 +86,7 @@ router.post('/login', [
     const token = jwt.sign(
       { id: usuario._id, nombre: usuario.nombre },
       process.env.JWT_SECRET,
-      { expiresIn: '24h', algorithm: 'HS256' }
+      { expiresIn: '12h', algorithm: 'HS256' }
     );
 
     res.json({ token, nombre: usuario.nombre });
