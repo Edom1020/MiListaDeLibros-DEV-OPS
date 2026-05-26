@@ -30,7 +30,7 @@ app.use(limitadorGeneral);
 
 const limitadorLogin = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 5,
+  max: 30,
   message: { mensaje: 'Demasiados intentos de login, espera 15 minutos' }
 });
 app.use('/api/usuarios/login', limitadorLogin);
