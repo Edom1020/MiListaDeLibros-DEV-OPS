@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import { body, param, validationResult, matchedData } from 'express-validator';
+import Libro from '../models/Libro.js';
+import auth from '../middleware/auth.js';
+
 const router = express.Router();
-const { body, param, validationResult, matchedData } = require('express-validator');
-const Libro = require('../models/Libro');
-const auth = require('../middleware/auth');
 
 // GET - Obtener todos los libros del usuario
 router.get('/', auth, async (req, res) => {
@@ -155,4 +156,4 @@ router.get('/estadisticas', auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

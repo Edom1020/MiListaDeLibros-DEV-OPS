@@ -1,10 +1,11 @@
-const express = require('express');
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { body, validationResult, matchedData } from 'express-validator';
+import Usuario from '../models/Usuario.js';
+import auth from '../middleware/auth.js';
+
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { body, validationResult, matchedData } = require('express-validator');
-const Usuario = require('../models/Usuario');
-const auth = require('../middleware/auth');
 
 // REGISTRO
 router.post('/registro', [
@@ -104,4 +105,4 @@ router.get('/perfil', auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

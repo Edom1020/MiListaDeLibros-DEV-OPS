@@ -1,12 +1,13 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import dotenv from 'dotenv';
+import usuariosRoutes from './routes/usuarios.js';
+import librosRoutes from './routes/libros.js';
 
-const usuariosRoutes = require('./routes/usuarios');
-const librosRoutes = require('./routes/libros');
+dotenv.config();
 
 const app = express();
 
