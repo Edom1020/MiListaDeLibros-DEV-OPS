@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import usuariosRoutes from './routes/usuarios.js';
 import librosRoutes from './routes/libros.js';
+import sanitizationMiddleware from './middleware/sanitize.js';
 
 dotenv.config();
 
@@ -37,6 +38,9 @@ const limitadorLogin = rateLimit({
 app.use('/api/usuarios/login', limitadorLogin);
 
 app.use(express.json({ limit: '100kb' }));
+
+// Middleware de sanitización contra inyecciones NoSQL
+app.use(sanitizationMiddleware);
 
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/libros', librosRoutes);

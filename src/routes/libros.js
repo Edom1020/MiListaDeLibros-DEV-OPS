@@ -15,6 +15,25 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// GET - Estadísticas (DEBE estar antes de /:id para evitar conflictos de enrutamiento)
+router.get('/estadisticas', auth, async (req, res) => {
+  try {
+    const libros = await Libro.find({ usuario: req.usuario.id });
+    const estadisticas = {
+      total: libros.length,
+      leidos: libros.filter(l => l.estado === 'leido').length,
+      pendientes: libros.filter(l => l.estado === 'pendiente').length,
+      porAnio: libros.reduce((acc, l) => {
+        acc[l.anio] = (acc[l.anio] || 0) + 1;
+        return acc;
+      }, {})
+    };
+    res.json(estadisticas);
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error en el servidor' });
+  }
+});
+
 const validarIdLibro = [
   param('id')
     .isMongoId().withMessage('El ID del libro no es válido')
@@ -132,25 +151,6 @@ router.delete('/:id', auth, validarIdLibro, async (req, res) => {
     });
     if (!libro) return res.status(404).json({ mensaje: 'Libro no encontrado' });
     res.json({ mensaje: 'Libro eliminado correctamente' });
-  } catch (error) {
-    res.status(500).json({ mensaje: 'Error en el servidor' });
-  }
-});
-
-// GET - Estadísticas
-router.get('/estadisticas', auth, async (req, res) => {
-  try {
-    const libros = await Libro.find({ usuario: req.usuario.id });
-    const estadisticas = {
-      total: libros.length,
-      leidos: libros.filter(l => l.estado === 'leido').length,
-      pendientes: libros.filter(l => l.estado === 'pendiente').length,
-      porAnio: libros.reduce((acc, l) => {
-        acc[l.anio] = (acc[l.anio] || 0) + 1;
-        return acc;
-      }, {})
-    };
-    res.json(estadisticas);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error en el servidor' });
   }
