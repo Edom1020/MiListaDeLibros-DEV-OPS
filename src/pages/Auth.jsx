@@ -32,7 +32,7 @@ export default function Auth() {
     return
   }
   if (form.password.length < 6) {
-    setError('La contraseña debe tener mínimo 6 caracteres')
+    setError('La contraseña debe tener mínimo 9 caracteres')
     setCargando(false)
     return
   }
