@@ -31,11 +31,26 @@ export default function Auth() {
     setCargando(false)
     return
   }
-  if (form.password.length < 6) {
-    setError('La contraseña debe tener mínimo 9 caracteres')
+  if (form.password.length < 12) {
+    setError('La contraseña debe tener mínimo 12 caracteres')
     setCargando(false)
     return
   }
+    if (!/[A-Z]/.test(form.password)) {
+      setError('La contraseña debe tener al menos una letra mayúscula')
+      setCargando(false)
+      return
+    }
+    if (!/[0-9]/.test(form.password)) {
+      setError('La contraseña debe tener al menos un número')
+      setCargando(false)
+      return
+    }
+    if (!/[!@#$%^&*]/.test(form.password)) {
+      setError('La contraseña debe tener al menos un carácter especial (!@#$%^&*)')
+      setCargando(false)
+      return
+    }
   
     try {
       if (!esLogin) await registrar(form)
@@ -230,7 +245,7 @@ export default function Auth() {
                 name="password"
                 value={form.password}
                 onChange={handleChange}
-                placeholder="Mínimo 9 caracteres"
+                placeholder="Mínimo 12 caracteres"
                 required
                 style={{
                   width: '100%',
@@ -245,6 +260,36 @@ export default function Auth() {
                 }}
               />
             </div>
+
+            {/* Indicador visual contraseña */}
+              {!esLogin && (
+                <div style={{
+                  fontSize: '11px',
+                  color: 'var(--azul-texto)',
+                  marginTop: '8px',
+                  padding: '8px 12px',
+                  background: 'var(--azul-fondo)',
+                  borderRadius: 'var(--radio-md)',
+                  border: 'var(--borde)'
+                }}>
+                  La contraseña debe tener:
+                  <ul style={{ margin: '4px 0 0 0', paddingLeft: '16px' }}>
+                    <li style={{ color: form.password.length >= 12 ? 'green' : 'inherit' }}>
+                      Mínimo 12 caracteres
+                    </li>
+                    <li style={{ color: /[A-Z]/.test(form.password) ? 'green' : 'inherit' }}>
+                      Al menos una mayúscula
+                    </li>
+                    <li style={{ color: /[0-9]/.test(form.password) ? 'green' : 'inherit' }}>
+                      Al menos un número
+                    </li>
+                    <li style={{ color: /[!@#$%^&*]/.test(form.password) ? 'green' : 'inherit' }}>
+                      Al menos un carácter especial (!@#$%^&*)
+                    </li>
+                  </ul>
+                </div>
+              )}
+           
 
             {/* Botón submit */}
             <button
