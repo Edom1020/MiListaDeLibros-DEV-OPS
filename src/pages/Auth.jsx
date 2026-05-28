@@ -230,7 +230,7 @@ export default function Auth() {
                 name="password"
                 value={form.password}
                 onChange={handleChange}
-                placeholder="Mínimo 6 caracteres"
+                placeholder="Mínimo 9 caracteres"
                 required
                 style={{
                   width: '100%',
