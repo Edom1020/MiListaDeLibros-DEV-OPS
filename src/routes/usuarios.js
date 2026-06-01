@@ -36,7 +36,8 @@ router.post('/registro', [
 
     const { nombre, email, password } = matchedData(req, { locations: ['body'] });
 
-    const usuarioExiste = await Usuario.findOne({ email });
+    // Búsqueda optimizada con proyección de un solo campo
+    const usuarioExiste = await Usuario.findOne({ email }).select('_id');
     if (usuarioExiste) {
       return res.status(400).json({ mensaje: 'El email ya está registrado' });
     }

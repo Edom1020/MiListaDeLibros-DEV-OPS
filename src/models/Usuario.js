@@ -21,4 +21,7 @@ const usuarioSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+// Crear índice explícito en email para optimizar búsquedas
+usuarioSchema.index({ email: 1 }, { sparse: true });
+
 export default mongoose.model('Usuario', usuarioSchema);
